@@ -74,11 +74,12 @@ type Container struct {
 }
 
 type Network struct {
-	Name      string                 `json:"name"`
-	UUID      string                 `json:"uuid"`
-	Metadata  map[string]interface{} `json:"metadata"`
-	HostPorts bool                   `json:"host_ports"`
-	Default   bool                   `json:"is_default"`
+	Name          string                 `json:"name"`
+	UUID          string                 `json:"uuid"`
+	Metadata      map[string]interface{} `json:"metadata"`
+	HostPorts     bool                   `json:"host_ports"`
+	Default       bool                   `json:"is_default"`
+	NetworkPolicy string                 `json:"network_policy"`
 }
 
 type Host struct {
