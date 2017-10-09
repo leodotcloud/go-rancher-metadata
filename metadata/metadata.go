@@ -20,9 +20,9 @@ type Client interface {
 	GetSelfServiceByName(string) (Service, error)
 	GetSelfService() (Service, error)
 	GetSelfStack() (Stack, error)
-	GetServiceByName(string, string) (Service, error)
-	GetServiceByRegionEnvironment(string, string, string, string) (Service, error)
-	GetServiceByEnvironment(string, string, string) (Service, error)
+	GetServiceByNameInStack(string, string) (Service, error)
+	GetServiceByNameInStackByRegionEnvironment(string, string, string, string) (Service, error)
+	GetServiceByNameInStackByEnvironment(string, string, string) (Service, error)
 	GetServices() ([]Service, error)
 	GetServicesByRegionEnvironment(string, string) ([]Service, error)
 	GetServicesByEnvironment(string) ([]Service, error)
@@ -183,7 +183,7 @@ func (m *client) GetSelfStack() (Stack, error) {
 	return stack, nil
 }
 
-func (m *client) GetServiceByName(stackName string, svcName string) (Service, error) {
+func (m *client) GetServiceByNameInStack(stackName string, svcName string) (Service, error) {
 	resp, err := m.SendRequest("/stacks/" + stackName + "/services/" + svcName)
 	var service Service
 	if err != nil {
@@ -197,7 +197,7 @@ func (m *client) GetServiceByName(stackName string, svcName string) (Service, er
 	return service, nil
 }
 
-func (m *client) GetServiceByRegionEnvironment(regionName string, envName string, stackName string, svcName string) (Service, error) {
+func (m *client) GetServiceByNameInStackByRegionEnvironment(regionName string, envName string, stackName string, svcName string) (Service, error) {
 	resp, err := m.SendRequest("/environments")
 	var service Service
 	if err != nil {
@@ -221,7 +221,7 @@ func (m *client) GetServiceByRegionEnvironment(regionName string, envName string
 	return service, nil
 }
 
-func (m *client) GetServiceByEnvironment(envName string, stackName string, svcName string) (Service, error) {
+func (m *client) GetServiceByNameInStackByEnvironment(envName string, stackName string, svcName string) (Service, error) {
 	regionName, err := m.GetRegionName()
 	var service Service
 	if err != nil {
