@@ -13,6 +13,7 @@ type Client interface {
 	OnChange(int, func(string))
 	SendRequest(string) ([]byte, error)
 	GetVersion() (string, error)
+	GetName() (string, error)
 	GetRegionName() (string, error)
 	GetSelfHost() (Host, error)
 	GetSelfContainer() (Container, error)
@@ -100,7 +101,25 @@ func (m *client) GetVersion() (string, error) {
 	if err != nil {
 		return "", err
 	}
-	return string(resp[:]), nil
+	var version string
+	err = json.Unmarshal(resp, &version)
+	if err != nil {
+		return "", err
+	}
+	return version, nil
+}
+
+func (m *client) GetName() (string, error) {
+	resp, err := m.SendRequest("/name")
+	if err != nil {
+		return "", err
+	}
+	var name string
+	err = json.Unmarshal(resp, &name)
+	if err != nil {
+		return "", err
+	}
+	return name, nil
 }
 
 func (m *client) GetRegionName() (string, error) {
@@ -108,7 +127,11 @@ func (m *client) GetRegionName() (string, error) {
 	if err != nil {
 		return "", err
 	}
-	regionName := string(resp[:])
+	var regionName string
+	err = json.Unmarshal(resp, &regionName)
+	if err != nil {
+		return "", err
+	}
 	return regionName, nil
 }
 
